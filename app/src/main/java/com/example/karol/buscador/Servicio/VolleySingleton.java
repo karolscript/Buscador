@@ -1,4 +1,4 @@
-package com.fitucab.ds1617b.fitucab.Helper.Rest;
+package com.example.karol.buscador.Servicio;
 
 import android.content.Context;
 
@@ -14,16 +14,14 @@ public class VolleySingleton {
     private static VolleySingleton mInstance;
     private RequestQueue mRequestQueue;
     private static Context mCtx;
-    //private static final String STRING_CONN= "http://10.0.2.2:8888/Prueba_war_exploded/M05_ServicesSport/getMetSport?nameSpo=CAMINAR";
-   // private static final String STRING_CONN= "http://10.0.2.2:8888/Prueba_war_exploded/M05_ServicesSport/getSport?idSpo=1";
 
-
+    public static final String BASE_URL= "https://www.liverpool.com.mx/tienda?s=";
+    public static final String END_URL="&d3106047a194921c01969dfdec083925=json";
 
     private VolleySingleton(Context context) {
         mCtx = context;
         mRequestQueue = getRequestQueue();
     }
-
 
     public static synchronized VolleySingleton getInstance(Context context) {
         if (mInstance == null) {
@@ -44,10 +42,5 @@ public class VolleySingleton {
     public <T> void addToRequestQueue(Request<T> req) {
         getRequestQueue().add(req);
     }
-
-    //public static String getStringConn() {
-      //  return STRING_CONN;
-   // }
-
 }
 

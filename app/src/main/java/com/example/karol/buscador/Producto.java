@@ -8,6 +8,8 @@ public class Producto {
 
     public int icon;
     public String title;
+    public double precio;
+    public String imgUrl;
 
     public Producto(){
         super();
@@ -17,5 +19,11 @@ public class Producto {
         super();
         this.icon=icon;
         this.title=title;
+    }
+
+    public Producto (String imgUrl, String nombre, double  precio){
+        this.imgUrl = imgUrl;
+        this.title = nombre;
+        this.precio = precio;
     }
 }
