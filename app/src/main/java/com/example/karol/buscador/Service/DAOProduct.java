@@ -1,4 +1,4 @@
-package com.example.karol.buscador.Servicio;
+package com.example.karol.buscador.Service;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,10 +17,11 @@ import java.util.Map;
  * Created by karol on 2/9/2017.
  */
 
-public class VolleyService {
+public class DAOProduct {
 
-    public void traerJson(String URL, final Context context){
-        Log.i("TRACE", "INERT ACTIVITY REQUEST");
+    public void getJsonList(String product, final Context context){
+        String URL = VolleySingleton.BASE_URL+product+VolleySingleton.END_URL;
+        Log.i("TRACE", "geJsonList()");
         getResponse(URL,
                 new VolleyCallback() {
                     @Override

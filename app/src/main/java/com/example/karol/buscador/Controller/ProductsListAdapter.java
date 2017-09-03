@@ -1,4 +1,4 @@
-package com.example.karol.buscador;
+package com.example.karol.buscador.Controller;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.karol.buscador.Model.Product;
+import com.example.karol.buscador.R;
 
 import java.util.ArrayList;
 

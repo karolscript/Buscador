@@ -1,4 +1,4 @@
-package com.example.karol.buscador.Servicio;
+package com.example.karol.buscador.Service;
 
 import android.content.Context;
 

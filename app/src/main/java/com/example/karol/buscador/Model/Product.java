@@ -1,4 +1,4 @@
-package com.example.karol.buscador;
+package com.example.karol.buscador.Model;
 
 /**
  * Created by karol on 1/9/2017.

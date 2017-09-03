@@ -1,8 +1,8 @@
-package com.example.karol.buscador.Servicio;
+package com.example.karol.buscador.Service;
 
 import android.app.Activity;
 
-import com.example.karol.buscador.Product;
+import com.example.karol.buscador.Model.Product;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,9 +20,9 @@ import java.util.Map;
  * Created by karol on 1/9/2017.
  */
 
-public class LeerJson extends Activity {
+public class JsonInterpreter extends Activity {
 
-    private ArrayList<Product> listaProducts = new ArrayList<Product>();
+    private ArrayList<Product> productsList = new ArrayList<Product>();
 
     private String jsonResponse;
 
@@ -43,26 +43,18 @@ public class LeerJson extends Activity {
                 }
             }
 
-
-
-
-
-
-
-
-
             } catch (Exception e1) {
             e1.printStackTrace();
         }
      }
 
 
-    public ArrayList<Product> getListaProducts() {
-        return listaProducts;
+    public ArrayList<Product> getProductsList() {
+        return productsList;
     }
 
-    public void setListaProducts(ArrayList<Product> listaProducts) {
-        this.listaProducts = listaProducts;
+    public void setProductsList(ArrayList<Product> productsList) {
+        this.productsList = productsList;
 
 
     }
@@ -119,8 +111,8 @@ public class LeerJson extends Activity {
                                             System.out.println("Precio "+ record.findValue("attributes").findValue("sku.list_Price").toString()
                                                     .substring(2,record.findValue("attributes").findValue("sku.list_Price").toString().length()-2));
                                             if (product !=null){
-                                                listaProducts.add(product);
-                                                System.out.println("LISTA PRODUCTO "+ listaProducts.size());
+                                                productsList.add(product);
+                                                System.out.println("LISTA PRODUCTO "+ productsList.size());
                                             }
                                         }
                                     }
