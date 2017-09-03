@@ -34,7 +34,6 @@ public class VolleyService {
                 }, context);
     }
 
-
     public interface VolleyCallback {
         void onSuccessResponse(String result);
     }
@@ -47,10 +46,7 @@ public class VolleyService {
 
             @Override
             public void onResponse(String Response) {
-
                 callback.onSuccessResponse(Response);
-
-
             }
         }, new Response.ErrorListener() {
             @Override

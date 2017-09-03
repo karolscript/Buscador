@@ -1,10 +1,8 @@
 package com.example.karol.buscador.Servicio;
 
 import android.app.Activity;
-import android.content.Context;
 
-import com.example.karol.buscador.Producto;
-import com.example.karol.buscador.R;
+import com.example.karol.buscador.Product;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,9 +11,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -26,7 +22,7 @@ import java.util.Map;
 
 public class LeerJson extends Activity {
 
-    private ArrayList<Producto> listaProductos = new ArrayList<Producto>();
+    private ArrayList<Product> listaProducts = new ArrayList<Product>();
 
     private String jsonResponse;
 
@@ -61,12 +57,12 @@ public class LeerJson extends Activity {
      }
 
 
-    public ArrayList<Producto> getListaProductos() {
-        return listaProductos;
+    public ArrayList<Product> getListaProducts() {
+        return listaProducts;
     }
 
-    public void setListaProductos(ArrayList<Producto> listaProductos) {
-        this.listaProductos = listaProductos;
+    public void setListaProducts(ArrayList<Product> listaProducts) {
+        this.listaProducts = listaProducts;
 
 
     }
@@ -108,8 +104,8 @@ public class LeerJson extends Activity {
                                         JsonNode record = recordsIterator.next();
                                         if (record.has("attributes")){
                                             System.out.println("ATRIBUTOS " + record.findValue("attributes").toString());
-                                            Producto producto =
-                                                    new Producto(record.findValue("attributes").findValue("product.smallImage").toString()
+                                            Product product =
+                                                    new Product(record.findValue("attributes").findValue("product.smallImage").toString()
                                                             .substring(1,record.findValue("attributes").findValue("product.smallImage").toString().length()-1),
                                                             record.findValue("attributes").findValue("product.displayName").toString()
                                                                     .substring(1,record.findValue("attributes").findValue("product.displayName").toString().length()-1),
@@ -122,9 +118,9 @@ public class LeerJson extends Activity {
                                                     .substring(1,record.findValue("attributes").findValue("product.smallImage").toString().length()-1));
                                             System.out.println("Precio "+ record.findValue("attributes").findValue("sku.list_Price").toString()
                                                     .substring(2,record.findValue("attributes").findValue("sku.list_Price").toString().length()-2));
-                                            if (producto!=null){
-                                                listaProductos.add(producto);
-                                                System.out.println("LISTA PRODUCTO "+ listaProductos.size());
+                                            if (product !=null){
+                                                listaProducts.add(product);
+                                                System.out.println("LISTA PRODUCTO "+ listaProducts.size());
                                             }
                                         }
                                     }

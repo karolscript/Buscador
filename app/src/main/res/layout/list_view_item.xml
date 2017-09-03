@@ -6,13 +6,13 @@
     android:orientation="horizontal">
     
     <ImageView
-        android:id="@+id/foto_item"
+        android:id="@+id/itemImage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:src="@mipmap/ic_launcher_round"/>
     <TextView
-        android:id="@+id/nombre_item"
+        android:id="@+id/itemName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="7"
