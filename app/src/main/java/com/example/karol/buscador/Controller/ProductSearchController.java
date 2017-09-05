@@ -14,13 +14,9 @@ import java.util.ArrayList;
 
 public class ProductSearchController {
     private static ArrayList<Product> foundProductsList = new ArrayList<>();
-    private static ListView foundProductsListView;
-    private static ProductsListAdapter adapter;
 
-    public static ListView searchProduct(Context context, String product){
-        foundProductsList= ListViewController.fillProductsList(context,product);
-        adapter = new ProductsListAdapter(context, R.layout.list_view_item, foundProductsList);
-        foundProductsListView.setAdapter(adapter);
-        return foundProductsListView;
+    public static ArrayList<Product> searchProduct( String json){
+        foundProductsList= ListViewController.fillProductsList(json);
+        return foundProductsList;
     }
 }

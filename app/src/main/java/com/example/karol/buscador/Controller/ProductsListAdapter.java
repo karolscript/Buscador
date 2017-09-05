@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class ProductsListAdapter extends ArrayAdapter<Product> {
     Context context;
     int layoutResourceId;
-    ArrayList<Product> data = null;
+    ArrayList<Product> data = new ArrayList<>();
 
     public ProductsListAdapter(Context context, int layoutResourceId, ArrayList<Product> data){
         super(context,layoutResourceId,data);

@@ -5,10 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/activity_layout"
     tools:context="com.example.karol.buscador.UI.SearchActivity">
+
+    <android.support.v7.widget.SearchView
+        android:id="@+id/product_search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="¿Qué estás Buscando?">
+    </android.support.v7.widget.SearchView>
 
     <ListView
         android:id="@+id/products_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
 </LinearLayout>
