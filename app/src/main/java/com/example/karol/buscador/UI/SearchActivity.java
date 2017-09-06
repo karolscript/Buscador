@@ -1,8 +1,8 @@
 package com.example.karol.buscador.UI;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
@@ -12,12 +12,16 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.karol.buscador.Controller.HistoryController;
 import com.example.karol.buscador.Controller.ListViewController;
-import com.example.karol.buscador.Controller.ProductSearchController;
 import com.example.karol.buscador.Controller.ProductsListAdapter;
+import com.example.karol.buscador.Helper.Utilities;
 import com.example.karol.buscador.Model.Product;
 import com.example.karol.buscador.R;
 import com.example.karol.buscador.Service.VolleySingleton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +33,6 @@ public class SearchActivity extends AppCompatActivity {
     private View header;
     Context context;
     ListViewController listViewController = new ListViewController();
-    ProductSearchController productSearchController = new ProductSearchController();
     ArrayList<Product> foundProductsList = new ArrayList<>();
 
     @Override
@@ -38,16 +41,27 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         //initComponents();
         productsListView = (ListView) findViewById(R.id.products_list_view);
-        header = (View )getLayoutInflater().inflate(R.layout.products_list_view_header, null);
+        header = getLayoutInflater().inflate(R.layout.products_list_view_header, null);
         productsListView.addHeaderView(header);
         productSearchView = (SearchView)findViewById(R.id.product_search_view);
         context = this;
+
+
+
+
         // perform set on query text listener event
         productSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
             // do something on text submit
+                if (productsListView!=null)
+                    productsListView.setAdapter(null);
 
+                try {
+                    addToHistory(query);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 foundProductsList.clear();
                 getJsonList(query,context);
 
@@ -81,25 +95,23 @@ public class SearchActivity extends AppCompatActivity {
 
 
 
-       // query = productSearchView.getQuery();
 
     }
 
     public void getJsonList(String product, final Context context){
         String URL = VolleySingleton.BASE_URL+product+VolleySingleton.END_URL;
-        Log.i("TRACE", "geJsonList()");
+        Log.i("TRACE", "----geJsonList()----");
         getResponse(URL,
                 new SearchActivity.VolleyCallback() {
                     @Override
                     public void onSuccessResponse(String result) {
                         try {
-                            Log.i("onSuccesResponse","Succesful");
-                            foundProductsList = listViewController.fillProductsList(result);
-                            ProductsListAdapter adapter = new ProductsListAdapter(context, R.layout.list_view_item, foundProductsList);
+                            Log.d("TAG","Succesful response");
+                            foundProductsList = ListViewController.fillProductsList(result);
+                            ProductsListAdapter adapter = new ProductsListAdapter(context, foundProductsList, R.layout.list_view_item);
                             productsListView.setAdapter(adapter);
                         } catch (Exception e) {
-                            //otro = "error";
-                            e.printStackTrace();
+                            Log.e("TAG",e.getLocalizedMessage());
                         }
                     }
                 }, context);
@@ -135,5 +147,31 @@ public class SearchActivity extends AppCompatActivity {
         VolleySingleton.getInstance(context).getRequestQueue().add(strreq);
     }
 
+    public void addToHistory(String entry) throws JSONException {
+        boolean isFilePresent = HistoryController.isFilePresent(getApplicationContext(), Utilities.HISTORY_FILE_NAME);
+        if (isFilePresent) {
+            Log.d("writeHistory","File is present");
+            String history = HistoryController.read(getApplicationContext(), Utilities.HISTORY_FILE_NAME);
+            JSONArray jsonArray = new JSONArray(new String(history));
+            if (!HistoryController.isContained(jsonArray, entry)) {
+                jsonArray.put(jsonArray.length(), entry);
+                //writeHistory(entry,jsonArray);
+                Log.d("JSONActualizado ",jsonArray.toString());
+                HistoryController.saveData(jsonArray.toString(),getApplicationContext(), Utilities.HISTORY_FILE_NAME);
+            }
+        }else {
+            Log.d("TAG","File is not present");
+            boolean isFileCreated = HistoryController.create(getApplicationContext(),  Utilities.HISTORY_FILE_NAME, "{}");
+            if(isFileCreated) {
+                Log.d("TAG","File is created");
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.put(0,entry);
+                Log.d("TAG",jsonArray.toString());
+                HistoryController.saveData(jsonArray.toString(),getApplicationContext(), Utilities.HISTORY_FILE_NAME);
+            } else {
+                Log.e("TAG","No se creó el historial");
+            }
+        }
+    }
 
 }

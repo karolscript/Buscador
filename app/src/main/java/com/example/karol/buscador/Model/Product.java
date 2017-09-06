@@ -6,24 +6,24 @@ package com.example.karol.buscador.Model;
 
 public class Product {
 
-    public int icon;
     public String title;
-    public double precio;
+    public double price;
     public String imgUrl;
 
     public Product(){
         super();
     }
 
-    public Product(int icon, String title){
+    public Product(Double price, String title, String imgUrl){
         super();
-        this.icon=icon;
         this.title=title;
+        this.price = price;
+        this.imgUrl = imgUrl;
     }
 
-    public Product(String imgUrl, String nombre, double  precio){
+    public Product(String imgUrl, String nombre, double  price){
         this.imgUrl = imgUrl;
         this.title = nombre;
-        this.precio = precio;
+        this.price = price;
     }
 }

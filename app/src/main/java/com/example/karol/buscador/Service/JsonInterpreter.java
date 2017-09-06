@@ -8,8 +8,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-import org.json.JSONObject;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,12 +21,15 @@ import java.util.Map;
  */
 
 public class JsonInterpreter extends Activity {
-
-    private ArrayList<Product> productsList = new ArrayList<Product>();
-
+    private ArrayList<Product> productsList = new ArrayList<>();
     private String jsonResponse;
 
-    public void leyendo(){
+
+    /**
+     * Reads JsonObbject and organizes it in order
+     * to fill the list of products.
+     */
+    public void readAndTransform(){
         try {
 
             JSONObject mainNode = new JSONObject(getJsonResponse());
@@ -49,16 +52,16 @@ public class JsonInterpreter extends Activity {
      }
 
 
+    /**
+     * @return the list of products.
+     */
     public ArrayList<Product> getProductsList() {
         return productsList;
     }
 
-    public void setProductsList(ArrayList<Product> productsList) {
-        this.productsList = productsList;
-
-
-    }
-
+    /**
+     * @return the JsonResponse
+     */
     public String getJsonResponse() {
         return jsonResponse;
     }
@@ -68,7 +71,6 @@ public class JsonInterpreter extends Activity {
     }
 
     public void fillListFromJson(JSONObject node) throws IOException {
-
         JsonFactory factory = new JsonFactory();
         ObjectMapper mapper = new ObjectMapper(factory);
         JsonNode rootNode = mapper.readTree(node.toString());
@@ -78,18 +80,14 @@ public class JsonInterpreter extends Activity {
             Map.Entry<String,JsonNode> field = fieldsIterator.next();
 
             if (field.getValue() instanceof ArrayNode){
-                System.out.println(field.getKey() + " ES ARREGLO");
                 Iterator<JsonNode> mainContentIterator = field.getValue().elements();
                 while (mainContentIterator.hasNext()) {
                     JsonNode mainContent = mainContentIterator.next();
-                    System.out.println("Content Key: " + mainContent.toString()/* + "\tValue:" + mainContent.getValue()*/);
                     if ((mainContent.has("contents")) && (mainContent.get("contents") instanceof ArrayNode)){
                         Iterator<JsonNode> contentsIterator = mainContent.get("contents").elements();
                         while (contentsIterator.hasNext()) {
                             JsonNode contents = contentsIterator.next();
-                            System.out.println("contents " + contents.toString());
                             if(contents.has("records")){
-                                System.out.println("AQUÍ ESTAN");
                                 if (contents.get("records") instanceof ArrayNode){
                                     Iterator <JsonNode> recordsIterator = contents.get("records").elements();
                                     while (recordsIterator.hasNext()){
@@ -98,18 +96,15 @@ public class JsonInterpreter extends Activity {
                                             System.out.println("ATRIBUTOS " + record.findValue("attributes").toString());
                                             Product product =
                                                     new Product(record.findValue("attributes").findValue("product.smallImage").toString()
-                                                            .substring(1,record.findValue("attributes").findValue("product.smallImage").toString().length()-1),
+                                                            .substring(2,record.findValue("attributes").findValue("product.smallImage").toString().length()-2),
                                                             record.findValue("attributes").findValue("product.displayName").toString()
                                                                     .substring(1,record.findValue("attributes").findValue("product.displayName").toString().length()-1),
                                                             Double.parseDouble(record.findValue("attributes").findValue("sku.list_Price").toString()
                                                                     .substring(2,record.findValue("attributes").findValue("sku.list_Price").toString().length()-2))
                                                     );
-                                            System.out.println("Nombre "+ record.findValue("attributes").findValue("product.displayName").toString()
-                                                    .substring(1,record.findValue("attributes").findValue("product.displayName").toString().length()-1));
-                                            System.out.println("Imagen URL "+ record.findValue("attributes").findValue("product.smallImage").toString()
-                                                    .substring(1,record.findValue("attributes").findValue("product.smallImage").toString().length()-1));
-                                            System.out.println("Precio "+ record.findValue("attributes").findValue("sku.list_Price").toString()
-                                                    .substring(2,record.findValue("attributes").findValue("sku.list_Price").toString().length()-2));
+                                            System.out.println("Nombre "+ product.title);
+                                            System.out.println("Imagen URL "+ product.imgUrl);
+                                            System.out.println("Precio "+ product.price);
                                             if (product !=null){
                                                 productsList.add(product);
                                                 System.out.println("LISTA PRODUCTO "+ productsList.size());

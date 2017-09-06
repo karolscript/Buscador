@@ -1,7 +1,5 @@
 package com.example.karol.buscador.Controller;
 
-import android.content.SharedPreferences;
-
 import com.example.karol.buscador.Model.Product;
 import com.example.karol.buscador.Service.JsonInterpreter;
 
@@ -12,14 +10,10 @@ import java.util.ArrayList;
  */
 
 public class ListViewController {
-    private static SharedPreferences sharedPreferences;
     private static JsonInterpreter jsonInterpreter = new JsonInterpreter();
-
-
     public static ArrayList<Product> fillProductsList(String response){
-
         jsonInterpreter.setJsonResponse(response);
-        jsonInterpreter.leyendo();
+        jsonInterpreter.readAndTransform();
         return jsonInterpreter.getProductsList();
     }
 }
